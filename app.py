@@ -7,17 +7,26 @@ from Newproject.logger import logging
 from Newproject.exception import customException
 from Newproject.components.data_ingestion import DataIngestion
 from Newproject.components.data_ingestion import DataIngestionConfig
+from Newproject.components.data_transformation import DataTransformationConfig,DataTransformation
+
+import sys
 
 
 
-if __name__ == "__main__":
-    logging.info('Logging info has started')
+
+if __name__=="__main__":
+    logging.info("The execution has started")
 
     try:
-        #data_ingestion = DataIngestionConfig()
-        data_ingestion = DataIngestion()
-        data_ingestion.initiate_data_ingestion()
+        #data_ingestion_config=DataIngestionConfig()
+        data_ingestion=DataIngestion()
+        train_data_path,test_data_path=data_ingestion.initiate_data_ingestion()
 
+        #data_transformation_config=DataTransformationConfig()
+        data_transformation=DataTransformation()
+        train_arr,test_arr,_=data_transformation.initiate_data_transormation(train_data_path,test_data_path)
+
+        
     except Exception as e:
-        logging.error(f"An error occurred: {e}")  # Use logging.error to log the exception message
-        raise customException(f"An error occurred: {e}", sys)  # Raise the CustomException with a message
+        logging.info("Custom Exception")
+        raise customException(e,sys)
